@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "op-2-ng-elements-hello-world-client-side-solution",
+    "id": "d741d86d-ee95-4d74-b04b-85b0c78885c0",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/op-2-ng-elements-hello-world-client-side-solution.sppkg"
+  }
+}

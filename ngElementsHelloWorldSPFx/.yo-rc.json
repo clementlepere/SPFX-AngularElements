@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.5.1",
+    "libraryName": "ng-elements-hello-world-sp-fx",
+    "libraryId": "d741d86d-ee95-4d74-b04b-85b0c78885c0",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}
