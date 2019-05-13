@@ -1,0 +1,173 @@
+
+<table class="table dataTable" ngClass="{{config.className || ''}}"
+       role="grid" style="width: 100%;">
+    <thead>
+        <tr>
+            <th (click)="selectAll()" *ngIf="config.selecting" class="ms-headerCellStyleIcon ms-vh-icon ms-vh-selectAllIcon" scope="col" role="columnheader">
+                <span class="ms-selectall-span" tabindex="0" id="cbxSelectAllItems274" title="Select and deselect all items" role="checkbox" aria-checked="false" aria-label="Press space key to select all items on this list">
+                    <span  tabindex="-1" class="ms-selectall-iconouter"><img class="ms-selectall-icon" alt="" src="/_layouts/15/images/spcommon.png?rev=40"></span>
+                </span>
+            </th>
+            <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column"
+                (sortChanged)="onChangeTable($event)" ngClass="{{column.className || config && column.sortPossible ? 'column-header' : 'column-header'}}">
+                {{column.title}}
+                <span *ngIf="column.tooltip">
+                    <ng-template #popTemplate><div [innerHtml]="column.tooltip"></div></ng-template>
+                    <i class="glyphicon glyphicon-question-sign" [tooltip]="popTemplate" [placement]="column.tooltipPlacement"></i>
+                </span>
+                <i *ngIf="config && column.sortPossible" class="pull-right fa"
+                   [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
+            </th>
+        </tr>
+    </thead>
+    <tbody *ngIf="!showGroupBy && !showLoader">
+        <tr *ngIf="showFilterRow">
+            <td *ngIf="config.selecting">
+            </td>
+            <td *ngFor="let column of columns">
+                <input *ngIf="column.filtering && column.filtering.type == 'text'" value="{{filters[column.name]}}" placeholder="{{column.filtering.placeholder}}"
+                       (change)="selectedInput($event,column.name)"
+                       type="text"
+                       class="form-control"
+                       style="width: auto;" />
+                <ng-select *ngIf="column.filtering && column.filtering.type == 'select'" [allowClear]="true"
+                           [items]="column.arraySelected"
+                           [disabled]="disabled"
+                           (data)="refreshValue($event,column.name)"
+                           (selected)="selected($event,column.name)"
+                           (removed)="removed($event,column.name)"
+                           (typed)="typed($event)">
+                </ng-select>
+                <ng-select *ngIf="column.filtering && column.filtering.type == 'multiselect'" [allowClear]="true"
+                           [items]="column.arraySelected"
+                           [multiple]="true"
+                           [disabled]="disabled"
+                           (data)="refreshValue($event,column.name)"
+                           (selected)="selectedMulti($event,column.name)"
+                           (removed)="removedMulti($event,column.name)"
+                           (typed)="typed($event)">
+                </ng-select>
+            </td>
+        </tr>
+        <tr *ngIf="rows.length == 0">
+            <td [attr.colspan]="config.selecting ? columns.length + 1 : columns.length" class="text-center">No data</td>
+        </tr>
+        <tr *ngFor="let row of rows; let i = index;" (click)="rowClick(row)" [ngClass]="arrayLineSelected.indexOf(row) == -1 ? '' : 'active'">
+            <td *ngIf="config.selecting">
+                <span *ngIf="arrayLineSelected.indexOf(row) != -1" tabindex="0" title="Select and deselect all items" role="checkbox" aria-checked="false" aria-label="Press space key to select all items on this list">
+                    <span tabindex="-1" class="ms-selectall-iconouter"><img class="ms-selectall-icon" alt="" src="/_layouts/15/images/spcommon.png?rev=40"></span>
+                </span>
+            </td>
+            <td (click)="cellClick(row, column.name)" [class]="getErrorClass(column,row)" *ngFor="let column of columns">
+                <span *ngIf="!column.edit && !column.type" [class]="getClassA(row,column.name)" [innerHTML]="sanitize(getData(row, column.name))"></span>
+                <div *ngIf="!column.edit && column.type == 'stackedbar'" style="display: flex;">
+                        <div *ngFor="let openpriority of row.openpriority.value" [style.width.%]="openpriority.width" [style.background-color]="openpriority.type=='high'?'#ff660b':openpriority.type=='highest'?'#ef2d2b':openpriority.type=='medium'?'#ef962a':openpriority.type=='low'?'#efd82a':openpriority.type == 'lowest'?'#e1ef2a':'#bcbcb8'" style="color:white;text-align: center;">
+                            {{openpriority?.value}}
+                        </div>
+                </div>
+                <div *ngIf="!column.edit && column.type == 'favorite'">
+                    <span *ngIf="!column.editFavorite">
+                            <i *ngIf="row[column.name]" class="glyphicon glyphicon-star"></i>
+                            <i *ngIf="!row[column.name]" class="glyphicon glyphicon-star-empty"></i>                            
+                    </span>
+                    <span class="editable" *ngIf="column.editFavorite">
+                            <i *ngIf="row[column.name]" class="glyphicon glyphicon-star" (click)="onSetFavorite(row)"></i>
+                            <i *ngIf="!row[column.name]" class="glyphicon glyphicon-star-empty" (click)="onSetFavorite(row)"></i>                            
+                    </span>
+                </div>
+                <span *ngIf="column.edit">
+                    <input *ngIf="column.edit.type == 'text'"
+                           type="text"
+                           class="form-control"
+                           style="width: auto;"
+                           [(ngModel)]="row[column.name]" />
+                    <ng-select *ngIf="column.edit.type == 'select'" [allowClear]="true"
+                               [active]="row[column.name].value"
+                               [items]="row[column.name].list"
+                               [disabled]="disabled"
+                               (data)="refreshValueEdit($event,column.name,row)"
+                               (selected)="selectedEdit($event,column.name,row)"
+                               (removed)="removedEdit($event,column.name,row)"
+                               (typed)="typedEdit($event,column.name,row)">
+                    </ng-select>
+                    <ng-select *ngIf="column.edit.type == 'multiselect'" [allowClear]="true"
+                               [active]="row[column.name].value"
+                               [items]="row[column.name].list"
+                               [disabled]="disabled"
+                               [multiple]="true"
+                               (data)="refreshValueEditMulti($event,column.name,row)"
+                               (selected)="selectedEditMulti($event,column.name,row)"
+                               (removed)="removedEditMulti($event,column.name,row)"
+                               (typed)="typedEditMulti($event,column.name,row)">
+                    </ng-select>
+                    <span *ngIf="column.edit.type == 'peoplepickerpermission'">
+                        <div class="radio">
+                            <label><input type="radio" [name]="row.id" [value]="false" [(ngModel)]="row[column.name].permission">No permissions</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" [name]="i" [value]="true" [(ngModel)]="row[column.name].permission" >Select Roles</label> (if empty then allowed for everyone)
+                            <ng-select *ngIf="listPeoplePicker.length != 0" [allowClear]="true"
+                                       [active]="row[column.name].value"
+                                       [items]="listPeoplePicker"
+                                       [disabled]="!row[column.name].permission"
+                                       [multiple]="true"
+                                       (data)="refreshValueEditMulti($event,column.name,row)"
+                                       (selected)="selectedEditMulti($event,column.name,row)"
+                                       (removed)="removedEditMulti($event,column.name,row)"
+                                       (typed)="typedEditMulti($event,column.name,row)">
+                            </ng-select>
+                        </div> 
+                    </span>
+                    <span *ngIf="column.edit.type == 'peoplepickergrouppermission'">
+                        <div class="radio">
+                            <label><input type="radio" [name]="row.id" [value]="false" [(ngModel)]="row[column.name].permission">No permissions</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" [name]="i" [value]="true" [(ngModel)]="row[column.name].permission">Select Groups</label> (if empty then allowed for everyone)
+                            <ng-select *ngIf="listGroupPeoplePicker.length != 0" [allowClear]="true"
+                                       [active]="row[column.name].value"
+                                       [items]="listGroupPeoplePicker"
+                                       [disabled]="!row[column.name].permission"
+                                       [multiple]="true"
+                                       (data)="refreshValueEditMulti($event,column.name,row)"
+                                       (selected)="selectedEditMulti($event,column.name,row)"
+                                       (removed)="removedEditMulti($event,column.name,row)"
+                                       (typed)="typedEditMulti($event,column.name,row)">
+                            </ng-select>
+                        </div>
+                    </span>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="showGroupBy && !showLoader">
+        <tr *ngIf="rows.length == 0">
+            <td [attr.colspan]="config.selecting ? columns.length + 1 : columns.length" class="text-center">No data </td>
+        </tr>
+        <tr *ngFor="let row of rows; let i = index;" (click)="rowClick(row)" [ngClass]="arrayLineSelected.indexOf(row) == -1 ? '' : 'active'">
+            <td *ngIf="config.selecting">
+                <span class="ms-selectall-span" *ngIf="arrayLineSelected.indexOf(row) != -1" tabindex="0" title="Select and deselect all items" role="checkbox" aria-checked="false" aria-label="Press space key to select all items on this list">
+                    <span tabindex="-1" class="ms-selectall-iconouter"><img class="ms-selectall-icon" alt="" src="/_layouts/15/images/spcommon.png?rev=40"></span>
+                </span>
+            </td>
+            <td *ngFor="let column of columns" [style.display]="getRowspanDisplay(rows[i-1],row,column.name,i)" [attr.rowspan]="getRowspan(row,column.name)"><span [innerHTML]="sanitize(getData(row, column.name))"></span></td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="showLoader">
+      <tr>
+        <td [attr.colspan]="config.selecting ? columns.length + 1 : columns.length">
+          <shared-loader-table [display]="showLoader"></shared-loader-table>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<button *ngIf="!edit && config.editMode" (click)="_editTable()" type="button" class="btn btn-primary">
+    Edit
+</button>
+<button *ngIf="edit && config.editMode" (click)="_cancelTable()" type="button" class="btn btn-danger">
+    Cancel
+</button>
+<button *ngIf="edit && config.editMode" (click)="_saveTable()" type="button" class="btn btn-primary">
+    Save
+</button>

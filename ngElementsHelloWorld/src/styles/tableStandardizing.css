@@ -1,0 +1,122 @@
+/**************************************************** boostrap ***********************************************************/
+
+.bootstrap .progress-bar {
+	box-shadow: none;
+}
+
+.bootstrap .table-bordered {
+    border: none;
+}
+
+.bootstrap .table-bordered>tbody>tr>td, .bootstrap .table-bordered>tbody>tr>th, .bootstrap .table-bordered>tfoot>tr>td, .bootstrap .table-bordered>tfoot>tr>th, .bootstrap .table-bordered>thead>tr>td, .bootstrap .table-bordered>thead>tr>th {
+    border: none;
+}
+
+.bootstrap .pager li>a, .bootstrap .pager li>span {
+    padding: 2px 8px;
+}
+
+.bootstrap .pager li {
+    padding: 0px;
+}
+
+.bootstrap .panel-default {
+    border-color: transparent;
+}
+
+.bootstrap .panel-default>.panel-heading {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+/***************************************************** CORE15 ***********************************************************/
+
+.ms-subtleLink:link, .ms-subtleLink:visited, .ms-atMention:link, .ms-atMention:visited, .ms-hashTag:link, .ms-hashTag:visited {
+    color: #337ab7;
+}
+
+.ms-selectall-span {
+	line-height: 30px!important;
+}
+
+.ms-vb, .ms-vb2, .ms-vb-user, .ms-vb-tall, .ms-pb, .ms-pb-selected {
+    color: rgb(119,119,119);
+}
+
+.ms-vh2-nofilter, .ms-vh2-nofilter-notextalign, .ms-vh2-nofilter-perm, .ms-vh a, .ms-vh2, .ms-vh2 a {
+    color: rgb(119,119,119);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.ms-listviewtable tbody > tr:nth-child(2n+1) {
+    background-color: #f9f9f9;
+}
+
+
+/***************************************************** angular table ********************************************************/
+
+
+/* a voir avec pierre */
+.div-in-first-bar-progress {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.div-in-last-bar-progress {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+/**/
+
+/** CENTRER LES FLECHES DE PAGINATION
+<div _ngcontent-api-62="" class="col-md-2"> 
+à changer en 
+<div class="col-md-5 col-xs-4"></div>
+<div _ngcontent-api-62="" class="col-md-2 col-xs-4">
+<div class="col-md-5 col-xs-4"></div>
+**/
+
+
+/***************************************************** tree angular table ********************************************************/
+
+.inline[_ngcontent-gox-78] {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(119,119,119);
+}
+
+/** rajouter une classe à la premiere ligne du tableau, exemple : ; <div _ngcontent-gox-78="" class="inline" ng-reflect-inner-h-t-m-l="Pf Id">Pf Id</div> **/
+.panel-heading .column-header .inline {
+	font-weight: bold;
+	color: rgb(119,119,119);
+}
+
+#tree[_ngcontent-gox-78] > div[_ngcontent-gox-78]:nth-child(2n) a[_ngcontent-gox-78].list-group-item {
+    background-color: #f9f9f9;
+}
+
+/** mettre une classe sur Root Folder **/
+.rootFolder {
+	background-color: #f9f9f9;
+}
+
+/** rajouter à "Folder Name" **/
+.folderName {
+	padding-left: 24px;
+}
+
+/******************************************************* native table ************************************************************/
+
+/** rajouter pour les priorities des artifacts **/
+.element.style {
+    border-radius: 50px;
+    width: 20px;
+}
+
+/** supprimer le color sur la nom de l'artifact **/
+.element.style {
+    color: #000; /* A SUPPRIMER */
+}
+

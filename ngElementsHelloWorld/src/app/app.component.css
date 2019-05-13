@@ -1,0 +1,138 @@
+
+/* @import url('../assets/css/lib/bootstrap.min.css'); */
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+
+@import url('../styles/styles.css');
+@import url('../styles/headings.css');
+
+html,
+body {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a.active {
+    background-color: gray;
+}
+
+a {
+    cursor: pointer !important;
+}
+
+.bootstrap .form-control-feedback {
+    right: 12px !important;
+}
+
+.bootstrap .dashboardhome .panel {
+    background-color: white !important;
+    box-shadow: 0 2px 5px #bbb !important;
+    border-color: #ddd !important;
+}
+
+.bootstrap .dashboardhome .panel-heading {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #5b5b5b !important;
+    padding: 15px 15px !important;
+}
+
+.bootstrap i.params-position {
+    margin: 0 !important;
+    position: relative !important;
+    float: right !important;
+}
+
+.panel-title {
+    font-size: 1.2em;
+}
+
+.heart {
+    background-color: red;
+    display: inline-block;
+    height: 10px;
+    margin: 0 3px;
+    position: relative;
+    top: 0;
+    transform: rotate(-45deg);
+    width: 10px;
+    -webkit-animation: heartbig_animation 0.8s infinite;
+    -moz-animation: heartbig_animation 0.8s infinite;
+    -o-animation: heartbig_animation 0.8s infinite;
+    animation: heartbig_animation 0.8s infinite;
+}
+
+.heart:before,
+.heart:after {
+    content: "";
+    background-color: red;
+    border-radius: 50%;
+    height: 10px;
+    position: absolute;
+    width: 10px;
+}
+
+.heart:before {
+    top: -5px;
+    left: 0;
+}
+
+.heart:after {
+    left: 5px;
+    top: 0;
+}
+
+@-webkit-keyframes heartbig_animation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes heartbig_animation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-o-keyframes heartbig_animation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes heartbig_animation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

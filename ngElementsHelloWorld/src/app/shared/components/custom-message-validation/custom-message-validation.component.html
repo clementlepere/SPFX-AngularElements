@@ -1,0 +1,5 @@
+<div *ngIf="config">
+  <div *ngIf="config?.type == 'create'" class="alert alert-success" role="alert">Success ! The {{config.itemType}} {{config.itemName}} has been created</div>
+  <div *ngIf="config?.type == 'update'" class="alert alert-success" role="alert">Success ! The {{config.itemType}} {{config.itemName}} has been updated</div>
+  <div *ngIf="config?.type == 'delete'" class="alert alert-success" role="alert">Success ! The {{config.itemType}} {{config.itemName}} has been deleted</div>
+</div>

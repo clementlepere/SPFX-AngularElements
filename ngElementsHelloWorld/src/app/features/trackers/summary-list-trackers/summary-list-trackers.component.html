@@ -1,0 +1,102 @@
+<script type="text/javascript" src="assets/sp.runtime.js"></script>
+<script type="text/javascript" src="assets/sp.js"></script>
+<div>
+    <div>
+        <div>
+            <div *ngIf="errorMessage">
+                {{errorMessage}}
+            </div>
+            <div *ngIf="successMessage" class="alert-success">
+                <span [innerHTML]="successMessage"></span>
+            </div>
+            <div *ngIf='permissionsTracker && showMigrated == false' class="add-item">
+                <a id="idHomePageNewItem" (click)="redirectView('#/createTracker')"
+                    data-viewctr="0" target="_self" title="Add a new item to this list or library.">
+                    <span class="ms-list-addnew-imgSpan20">
+                        <img id="idHomePageNewItem-img" src="/_layouts/15/images/spcommon.png?rev=40" class="ms-list-addnew-img20">
+                    </span>
+                    <span>new item</span>
+                </a>
+            </div>
+            <div> 
+                <span>
+                    <input *ngIf="config.filtering" placeholder="Find an item" [ngTableFiltering]="config.filtering"
+                        [(ngModel)]="config.filtering.filterString" class="search-button" (tableChanged)="onChangeTable(config)" />
+                    <i class="form-control-feedback glyphicon glyphicon-search-tracker"></i>
+                </span>
+                
+                <button (click)="resetFilter()" class="btn btn-default allitems">All Items</button>
+                
+                <a (click)="!disabledEdit ? goTo(viewLink) : ''">
+                    <button type="button" [disabled]="disabledEdit" class="btn btn-default">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                         View Item</button>
+                </a>
+                <a (click)="!disabledEdit ? redirectView('#/updateTracker?trackerId='+trackerIdSelected) : ''">
+                    <button type="button" [disabled]="disabledEdit" class="btn btn-default">
+                        <i class="glyphicon glyphicon-pencil"></i> 
+                        Edit Item</button>
+                </a>
+                <a (click)="columns[1].editFavorite = !columns[1].editFavorite">
+                    <button *ngIf="columns[1].editFavorite" type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-star"></i> 
+                        Save Favorites
+                    </button>
+                    <button *ngIf="!columns[1].editFavorite" type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-star-edit"></i> 
+                        Edit Favorites
+                    </button>
+                </a>
+                <a *ngIf='permissionsTracker' (click)="showDeletepopup()">
+                    <button type="button" [disabled]="disabledEdit" class="btn btn-default">
+                        <i class="glyphicon glyphicon-remove-summary-page"></i> 
+                        Delete Item</button>
+                </a>
+                <a [style.float]="'right'" (click)="searchAdvanced()">
+                    <button type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-search-advance"></i> 
+                        {{ disabledEdit ? "Search Advanced" : "Search
+                        Advanced on "+ trackerIdSelected}}</button>
+                </a>
+            </div>
+
+            
+                    <div class="modalpopup" *ngIf="showModelPopup">
+
+                        <div class="modalpopup-content">
+                            <div class="modalpopup-header">
+                                <span class="close" (click)="closeDeletePopup()">&times;</span>
+                                <h2>Delete Confirmation</h2>
+                            </div>
+                            <div class="modalpopup-body">
+                                <p *ngIf="disabledDelete"> {{deleteNPMsg}}</p>
+                                <p *ngIf="!disabledDelete">  <span [innerHTML]="textModal"></span>  {{trackerNameSelected}} "{{trackerIdSelected}}" ?</p>
+
+                            </div>
+                            <div class="modalpopup-footer">
+                                    <div style="float: right;">
+                                        <button type="button" *ngIf="disabledDelete" (click)="closeDeletePopup()">Ok</button>
+                                        <button type="button" (click)="closeDeletePopup()" *ngIf="!disabledDelete">No</button>
+                                        <button type="button" (click)="deleteTracker(trackerIdSelected);closeDeletePopup();" *ngIf="!disabledDelete" style="background-color: #337ab7!important;color: #fff;border-color: #2e6da4!important;">Yes</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+
+            <div>
+                <shared-table-generic [config]="config" (tableChanged)="onChangeTable(config,$event)" (filterChanged)="onFilterChange($event)" (favoriteEdited)="favoriteEdited($event)"
+                    (rowClicked)="onRowClick($event)" (cellClicked)="onCellClick($event)" [filtersInput]="filters"
+                    [showLoader]="showLoader" [rows]="rows" [data]="data" [columns]="columns">
+                </shared-table-generic>
+                <div>
+                    <div>
+                        <pager [totalItems]="length" [(ngModel)]="page" previousText="<" nextText=">" (pageChanged)="onChangeTable(config, $event)"
+                            pageBtnClass="btn" [itemsPerPage]="itemsPerPage"></pager>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div>test</div> -->
