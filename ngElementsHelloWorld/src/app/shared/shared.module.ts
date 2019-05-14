@@ -1,3 +1,6 @@
+import '../../styles/headings.css';
+import '../../styles/styles.css';
+
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';

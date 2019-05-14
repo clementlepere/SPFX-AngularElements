@@ -22,4 +22,7 @@ import { SummaryListTrackersComponent } from './summary-list-trackers/summary-li
     ],
     exports: [SummaryListTrackersComponent],
 })
-export class TrackersModule { }
+export class TrackersModule {
+
+}
+

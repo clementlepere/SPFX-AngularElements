@@ -4,7 +4,7 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-import { escape } from '@microsoft/sp-lodash-subset';
+// import { escape } from '@microsoft/sp-lodash-subset';
 
 // import styles from './HelloWorldWebPart.module.scss';
 import * as strings from 'HelloWorldWebPartStrings';
@@ -23,12 +23,15 @@ export interface IHelloWorldWebPartProps {
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
   public render(): void {
-    this.domElement.innerHTML = `<app-root [isOnline]='false'></app-root>`;
+    // this.domElement.innerHTML = `<app-root [isOnline]='false'></app-root>`;
+    console.log('this.DOMELEMENT1', this.domElement);
+    this.domElement.innerHTML = `<app-to-delete1></app-to-delete1>`;
+    console.log('this.domElement2', this.domElement);
 
-    const element = this.domElement.getElementsByTagName('app-root')[0];
-    element.addEventListener('elementButtonClick', (event: any) => {
-      alert(event.detail);
-    });
+    // const element = this.domElement.getElementsByTagName('summary-list-trackers')[0];
+    // element.addEventListener('elementButtonClick', (event: any) => {
+    //   alert(event.detail);
+    // });
   }
 
   protected get dataVersion(): Version {

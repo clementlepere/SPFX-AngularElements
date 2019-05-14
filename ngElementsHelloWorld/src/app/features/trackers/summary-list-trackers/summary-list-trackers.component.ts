@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 import { LoadTitleSPService } from '@app/core/services/loadTitleSP/loadTitleSP.service';
@@ -12,6 +12,7 @@ import { TableTracker } from '@app/shared/models/tracker/tabletracker';
     selector: 'summary-list-trackers',
     styleUrls: ['./summary-list-trackers.component.css'],
     templateUrl: './summary-list-trackers.component.html',
+    encapsulation: ViewEncapsulation.Native
 })
 export class SummaryListTrackersComponent implements OnInit {
     trackerIdSelected: string;
@@ -101,6 +102,59 @@ export class SummaryListTrackersComponent implements OnInit {
         public activatedRoute: ActivatedRoute,
         private isOnlineService: IsOnlineService,
     ) {
+        // this.isOnlineService.update(false);
+        // if (this.isOnlineService.get() === true) {
+        //     // this.getActivatedRoute();
+        //     if (typeof this.activatedRoute.params !== 'undefined') {
+        //         this.sub = this.activatedRoute.params.subscribe(params => {
+        //             // this.showMigrated = params['showMigrated']; // (+) converts string 'id' to a number
+        //             this.showMigrated = false; // (+) converts string 'id' to a number
+        //             this.tablegenericService.configureTable(this.columns, this.config);
+        //             this.loadTitleSpService.loadTitle();
+        //             this.getPermissionsForTracker();
+        //             this.getTrackersByListName();
+        //         });
+        //     }
+        // }
+        //  else {
+        //     this.showMigrated = false; // (+) converts string 'id' to a number
+        //     this.tablegenericService.configureTable(this.columns, this.config);
+        //     this.loadTitleSpService.loadTitle();
+        //     this.trackers = [];
+        //     const tracker: any = {
+        //         AutoAssigned: null,
+        //         Close: 0,
+        //         Description: null,
+        //         HiddenPoints: false,
+        //         Icon: 'https://ddw-int.capgemini.com/sites/PerformanceTestS/Style%20Library/Images/icons/icon_39.png',
+        //         Id: null,
+        //         IsFavoriteTracker: false,
+        //         IsSystemTracker: true,
+        //         Open: 2,
+        //         OpenPoints: 0,
+        //         OpenPriority: [],
+        //         TotalPoints: 0,
+        //         Total: 2,
+        //         TrackerId: 'tracker0752118',
+        //         TrackerName: 'Actions',
+        //         UnitId: 0,
+        //         UnitName: null,
+        //         ViewLink: '/sites/PerformanceTestS/TrackerForm/Lists/tracker0752118/TrackerHomeForm.aspx',
+        //         sp_id: 1,
+        //     };
+        //     tracker.OpenPriority.push({
+        //         Max: 2,
+        //         Type: 'low',
+        //         Value: 2,
+        //     });
+        //     this.trackers.push(tracker);
+        //     this.formatDataTable(this.trackers);
+        // }
+    }
+
+    public ngOnInit() {
+        console.log('onInit summary traker');
+        this.isOnlineService.update(false);
         if (this.isOnlineService.get() === true) {
             // this.getActivatedRoute();
             if (typeof this.activatedRoute.params !== 'undefined') {
@@ -113,7 +167,8 @@ export class SummaryListTrackersComponent implements OnInit {
                     this.getTrackersByListName();
                 });
             }
-        } else {
+        }
+         else {
             this.showMigrated = false; // (+) converts string 'id' to a number
             this.tablegenericService.configureTable(this.columns, this.config);
             this.loadTitleSpService.loadTitle();
@@ -147,10 +202,6 @@ export class SummaryListTrackersComponent implements OnInit {
             this.trackers.push(tracker);
             this.formatDataTable(this.trackers);
         }
-    }
-
-    public ngOnInit() {
-        console.log('onInit summary traker');
         // this.getActivatedRoute();
         // if (typeof this.activatedRoute.params != 'undefined') {
         //     this.sub = this.activatedRoute.params.subscribe(params => {
