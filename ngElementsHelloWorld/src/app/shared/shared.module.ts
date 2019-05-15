@@ -63,11 +63,4 @@ export class SharedModule {
         };
     }
     constructor() { }
-
-    // ngDoBootstrap(appRef: ApplicationRef) {
-    //     const rootElements = document.querySelectorAll('app-root');
-    //     for (const element of rootElements as any as HTMLElement[]) {
-    //       appRef.bootstrap(AppComponent, element);
-    //     }
-    //   }
 };

@@ -1,6 +1,7 @@
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
+import { ViewEncapsulation } from '@angular/core';
 import { Component, ElementRef, Input, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +19,7 @@ import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 // import { AppState } from '@app/app.service';
 @Component({
   selector: 'app-root',
-  // encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
   styleUrls: ['app.component.css'],
 })

@@ -12,7 +12,7 @@ import { TableTracker } from '@app/shared/models/tracker/tabletracker';
     selector: 'summary-list-trackers',
     styleUrls: ['./summary-list-trackers.component.css'],
     templateUrl: './summary-list-trackers.component.html',
-    encapsulation: ViewEncapsulation.Native
+    // encapsulation: ViewEncapsulation.Native
 })
 export class SummaryListTrackersComponent implements OnInit {
     trackerIdSelected: string;
@@ -201,7 +201,9 @@ export class SummaryListTrackersComponent implements OnInit {
             });
             this.trackers.push(tracker);
             this.formatDataTable(this.trackers);
+
         }
+        
         // this.getActivatedRoute();
         // if (typeof this.activatedRoute.params != 'undefined') {
         //     this.sub = this.activatedRoute.params.subscribe(params => {
@@ -399,9 +401,9 @@ export class SummaryListTrackersComponent implements OnInit {
         } else {
 
             setTimeout(() => {
-                this.permissionService.getPermissionsForTracker().subscribe((response) => {
-                    this.permissionsTracker = response;
-                });
+                // this.permissionService.getPermissionsForTracker().subscribe((response) => {
+                //     this.permissionsTracker = response;
+                // });
             }, 1000);
         }
     }

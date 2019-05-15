@@ -5,8 +5,8 @@ import { Ng2TableModule } from 'ng2-table';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { SharedModule } from '../../shared/shared.module';
-import { SummaryListTrackersComponent } from './summary-list-trackers/summary-list-trackers.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { SummaryListTrackersComponent } from '@app/features/trackers/summary-list-trackers/summary-list-trackers.component';
 
 @NgModule({
     imports: [
@@ -22,7 +22,5 @@ import { SummaryListTrackersComponent } from './summary-list-trackers/summary-li
     ],
     exports: [SummaryListTrackersComponent],
 })
-export class TrackersModule {
-
-}
+export class TrackersModule { }
 

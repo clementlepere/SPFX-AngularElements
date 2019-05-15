@@ -31,7 +31,6 @@ import { SummaryListTrackersComponent } from './features/trackers/summary-list-t
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-import { ToDelete1Component } from './to-delete1/to-delete1.component';
 // import { ChartsModule } from 'ng2-charts';
 // import { CoreModule } from './core/core.module';
 // Application wide providers
@@ -49,7 +48,6 @@ type StoreType = {
 @NgModule({
   declarations: [
     AppComponent,
-    ToDelete1Component,
     // SummaryListTrackersComponent,
 
   ],
@@ -97,7 +95,7 @@ type StoreType = {
       deps: [BackendRequestClass], multi: true
     },
   ],
-  entryComponents: [ToDelete1Component]
+  entryComponents: [AppComponent, SummaryListTrackersComponent]
 })
 export class AppModule {
   appState: any;
@@ -105,30 +103,18 @@ export class AppModule {
   constructor(private injector: Injector) { }
 
   ngDoBootstrap(appRef: ApplicationRef) {
-    // const rootElements = document.querySelectorAll('app-root');
-    // for (const element of rootElements as any as HTMLElement[]) {
-    //   console.log('element', element);
-    //   appRef.bootstrap(AppComponent, element);
-    // }
+    const rootElements = document.querySelectorAll('app-root');
+    for (const element of rootElements as any as HTMLElement[]) {
+      console.log('element', element);
+      appRef.bootstrap(AppComponent, element);
+    }
 
     // if (!customElements.get('summary-list-trackers')) {
     //   const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
-    //   console.log('custom1', AppElement1);
     //   customElements.define('summary-list-trackers', AppElement1);
     // }
-
-    if (!customElements.get('app-to-delete1')) {
-      const AppElement2 = createCustomElement(ToDelete1Component, { injector: this.injector });
-      console.log('custom1', AppElement2);
-      customElements.define('app-to-delete1', AppElement2);
-    }
-  
-    // if (!customElements.get('app-root')) {
-    //   const AppElement = createCustomElement(ToDelet1Component, { injector: this.injector });
-    //   console.log('custom2', AppElement);
-    //   customElements.define('app-root', AppElement);
-    // }
   }
+
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
       return;

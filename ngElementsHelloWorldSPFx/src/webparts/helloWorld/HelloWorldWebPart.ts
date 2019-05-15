@@ -24,11 +24,13 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
 
   public render(): void {
     // this.domElement.innerHTML = `<app-root [isOnline]='false'></app-root>`;
-    console.log('this.DOMELEMENT1', this.domElement);
-    this.domElement.innerHTML = `<app-to-delete1></app-to-delete1>`;
-    console.log('this.domElement2', this.domElement);
+    // console.log('this.DOMELEMENT1', this.domElement);
+    this.domElement.innerHTML = `<summary-list-trackers></summary-list-trackers>`;
+    // console.log('this.domElement2', this.domElement);
 
-    // const element = this.domElement.getElementsByTagName('summary-list-trackers')[0];
+    // this.domElement.innerHTML = `<app-hello-world message="${ this.properties.description }"></app-hello-world>`;
+
+    // const element = this.domElement.getElementsByTagName('app-hello-world')[0];
     // element.addEventListener('elementButtonClick', (event: any) => {
     //   alert(event.detail);
     // });

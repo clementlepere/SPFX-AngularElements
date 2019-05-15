@@ -31,64 +31,7 @@ export class SharedTableGenericComponent implements OnInit {
         private sanitizer: DomSanitizer,
         public peoplePickerService: PeoplePickerService,
         private isOnlineService: IsOnlineService,
-    ) {
-
-        // if (this.isOnlineService.get() === true) {
-        //     this.getAllPeoplePicker();
-        //     this.getGroupPeoplePicker();
-        // } else {
-        //     const listPeoplePicker = [
-        //         { id: 1, text: 'Rudra Raju, Mani' },
-        //         { id: 9, text: 'Style Resource Readers' },
-        //         { id: 14, text: 'Quick Deploy Users' },
-        //         { id: 15, text: 'NT AUTHORITY\authenticated users' },
-        //         { id: 16, text: 'Everyone' },
-        //         { id: 16, text: 'Everyone' },
-        //         { id: 17, text: 'SVC-COR-ECOPSRUSER' },
-        //         { id: 19, text: 'RecentItems' },
-        //         { id: 20, text: 'TrackerForm Management' },
-        //         { id: 21, text: 'TrackerForm Engagement Site Administrators' },
-        //         { id: 22, text: 'TrackerForm Members' },
-        //         { id: 23, text: 'TrackerForm Reader' },
-        //         { id: 24, text: 'TrackerForm Team' },
-        //         { id: 25, text: 'TrackerForm Customer' },
-        //         { id: 26, text: 'TrackerForm Contract' },
-        //         { id: 27, text: 'TrackerForm Cysip' },
-        //         { id: 28, text: 'TrackerForm Partner' },
-        //         { id: 29, text: 'CORP, ECOINSrPool' },
-        //         { id: 30, text: 'IN, auth-ema.int' },
-        //         { id: 31, text: 'SVC-COR-ECOPSRREDR' },
-        //         { id: 32, text: 'J, Suchithra' },
-        //         { id: 33, text: 'LEPERE, Clément' },
-        //     ];
-        //     listPeoplePicker.forEach((value: any) => {
-        //         this.listPeoplePicker.push({ 'id': value.Id, 'text': value.Name });
-        //     });
-        //     const listGroupPeoplePicker = [
-        //         { id: 16, text: 'Everyone' },
-        //         { id: 15, text: 'NT AUTHORITY\authenticated users' },
-        //         { id: 14, text: 'Quick Deploy Users' },
-        //         { id: 19, text: 'RecentItems' },
-        //         { id: 9, text: 'Style Resource Readers' },
-        //         { id: 26, text: 'TrackerForm Contract' },
-        //         { id: 25, text: 'TrackerForm Customer' },
-        //         { id: 27, text: 'TrackerForm Cysip' },
-        //         { id: 21, text: 'TrackerForm Engagement Site Administrators' },
-        //         { id: 20, text: 'TrackerForm Management' },
-        //         { id: 22, text: 'TrackerForm Members' },
-        //         { id: 28, text: 'TrackerForm Partner' },
-        //         { id: 23, text: 'TrackerForm Reader' },
-        //         { id: 24, text: 'TrackerForm Team' },
-        //     ];
-        //     listGroupPeoplePicker.forEach((value: any) => {
-        //         this.listGroupPeoplePicker.push({ 'id': value.Id, 'text': value.Name });
-        //     });
-        // }
-        // console.log('rows', this.rows);
-        // console.log('columns', this.columns);
-        // console.log('filters', this.filters);
-        // console.log('config', this.config);
-    }
+    ) { }
 
     public ngOnInit() {
         // TODO: use init

@@ -27,4 +27,6 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 // import 'intl/locale-data/jsonp/en';
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
 
+import 'core-js/es7/reflect';
+
 (window as any).global = window;
