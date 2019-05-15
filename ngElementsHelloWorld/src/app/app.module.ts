@@ -103,16 +103,16 @@ export class AppModule {
   constructor(private injector: Injector) { }
 
   ngDoBootstrap(appRef: ApplicationRef) {
-    const rootElements = document.querySelectorAll('app-root');
-    for (const element of rootElements as any as HTMLElement[]) {
-      console.log('element', element);
-      appRef.bootstrap(AppComponent, element);
-    }
-
-    // if (!customElements.get('summary-list-trackers')) {
-    //   const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
-    //   customElements.define('summary-list-trackers', AppElement1);
+    // const rootElements = document.querySelectorAll('app-root');
+    // for (const element of rootElements as any as HTMLElement[]) {
+    //   console.log('element', element);
+    //   appRef.bootstrap(AppComponent, element);
     // }
+
+    if (!customElements.get('summary-list-trackers')) {
+      const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
+      customElements.define('summary-list-trackers', AppElement1);
+    }
   }
 
   public hmrOnInit(store: StoreType) {
