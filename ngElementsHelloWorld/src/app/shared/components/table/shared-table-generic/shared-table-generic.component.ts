@@ -35,14 +35,14 @@ export class SharedTableGenericComponent implements OnInit {
 
     public ngOnInit() {
         // TODO: use init
-        console.log('table gneric init');
+        console.log('table generic init');
         if (this.isOnlineService.get() === true) {
             this.getAllPeoplePicker();
             this.getGroupPeoplePicker();
         } else {
             const listPeoplePicker = [
-                { id: 1, text: 'Rudra Raju, Mani' },
-                { id: 9, text: 'Style Resource Readers' },
+                { id: 1,  text: 'Rudra Raju, Mani' },
+                { id: 9,  text: 'Style Resource Readers' },
                 { id: 14, text: 'Quick Deploy Users' },
                 { id: 15, text: 'NT AUTHORITY\authenticated users' },
                 { id: 16, text: 'Everyone' },
@@ -72,7 +72,7 @@ export class SharedTableGenericComponent implements OnInit {
                 { id: 15, text: 'NT AUTHORITY\authenticated users' },
                 { id: 14, text: 'Quick Deploy Users' },
                 { id: 19, text: 'RecentItems' },
-                { id: 9, text: 'Style Resource Readers' },
+                { id: 9,  text: 'Style Resource Readers' },
                 { id: 26, text: 'TrackerForm Contract' },
                 { id: 25, text: 'TrackerForm Customer' },
                 { id: 27, text: 'TrackerForm Cysip' },
@@ -91,9 +91,6 @@ export class SharedTableGenericComponent implements OnInit {
         console.log('columns', this.columns);
         console.log('filters', this.filters);
         console.log('config', this.config);
-
-        // this.getAllPeoplePicker();
-        // this.getGroupPeoplePicker();
     }
 
     private get disabledV(): string {
@@ -213,7 +210,7 @@ export class SharedTableGenericComponent implements OnInit {
 
     @Input()
     public set data(data: any) {
-        console.log('data val', data);
+        console.log('input data val', data);
 
         let error = false;
         if (typeof this.arrayLineSelected.length == 'undefined') {

@@ -23,9 +23,9 @@ export interface IHelloWorldWebPartProps {
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
   public render(): void {
-    // this.domElement.innerHTML = `<app-root [isOnline]='false'></app-root>`;
+    this.domElement.innerHTML = `<app-root [isOnline]='false'></app-root>`;
     // console.log('this.DOMELEMENT1', this.domElement);
-    this.domElement.innerHTML = `<summary-list-trackers></summary-list-trackers>`;
+    // this.domElement.innerHTML = `<summary-list-trackers></summary-list-trackers>`;
     // console.log('this.domElement2', this.domElement);
 
     // this.domElement.innerHTML = `<app-hello-world message="${ this.properties.description }"></app-hello-world>`;

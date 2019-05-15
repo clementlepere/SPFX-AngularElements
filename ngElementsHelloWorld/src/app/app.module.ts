@@ -26,13 +26,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { PickListModule } from 'primeng/components/picklist/picklist';
+import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
 
-import { SummaryListTrackersComponent } from './features/trackers/summary-list-trackers';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { SharedModule } from './shared/shared.module';
-// import { ChartsModule } from 'ng2-charts';
-// import { CoreModule } from './core/core.module';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -48,18 +43,8 @@ type StoreType = {
 @NgModule({
   declarations: [
     AppComponent,
-    // SummaryListTrackersComponent,
-
   ],
   imports: [
-    // CommonModule,
-    // FormsModule,
-    // NgxPaginationModule,
-    // Ng2TableModule,
-    // PaginationModule.forRoot(),
-    // SharedModule,
-
-
     ConfirmDialogModule,
     PickListModule,
     BrowserModule,
@@ -87,6 +72,7 @@ type StoreType = {
       storageType: 'localStorage',
     }),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+
   ],
   providers: [
     BackendRequestClass,
@@ -95,7 +81,7 @@ type StoreType = {
       deps: [BackendRequestClass], multi: true
     },
   ],
-  entryComponents: [AppComponent, SummaryListTrackersComponent]
+  entryComponents: [AppComponent]
 })
 export class AppModule {
   appState: any;
@@ -109,10 +95,20 @@ export class AppModule {
     //   appRef.bootstrap(AppComponent, element);
     // }
 
-    if (!customElements.get('summary-list-trackers')) {
-      const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
-      customElements.define('summary-list-trackers', AppElement1);
+    if (!customElements.get('app-root')) {
+
+      const strategyFactory = new ElementZoneStrategyFactory(AppComponent, this.injector);
+      const helloElement = createCustomElement(AppComponent, { injector: this.injector, strategyFactory });
+      customElements.define('app-root', helloElement);
+
+      // const AppElement1 = createCustomElement(AppComponent, { injector: this.injector });
+      // customElements.define('app-root', AppElement1);
     }
+
+    // if (!customElements.get('summary-list-trackers')) {
+    //   const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
+    //   customElements.define('summary-list-trackers', AppElement1);
+    // }
   }
 
   public hmrOnInit(store: StoreType) {
