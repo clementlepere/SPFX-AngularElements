@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "compodocs": "compodoc -p src/tsconfig.app.json -s",
     "sp-build": "ng build ngElementsHelloWorld --prod --output-hashing=none",
     "spfx-build": "concurrently \"ng build ngElementsHelloWorld --prod --output-hashing=none\" \"type dist/ngElementsHelloWorld/*.js > ../ngElementsHelloWorldSPFx/src/webparts/helloWorld/app/ngElementsHelloWorld.js\"",
     "concat": "type dist/ngElementsHelloWorld/*.js > ../ngElementsHelloWorldSPFx/src/webparts/helloWorld/app/ngElementsHelloWorld.js"
