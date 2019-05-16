@@ -76,9 +76,9 @@ export const ROUTES: Routes = [
     // { path: 'summaryTracker/:showMigrated', component: SummaryListTrackersComponent },
 
     // { path: '**', component: NoContentComponent },
-    // { path: '**', component: AppComponent },
-    { path: '', redirectTo: 'summaryTracker', pathMatch: 'full' },
-    { path: 'summaryTracker', component: SummaryListTrackersComponent },
+    // { path: '**', component: SummaryListTrackersComponent },
+    // { path: '', redirectTo: 'summaryTracker', pathMatch: 'full' },
+    // { path: 'summaryTracker', component: SummaryListTrackersComponent },
 
     // {
     //     path: '**',

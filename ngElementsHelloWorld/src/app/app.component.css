@@ -1,9 +1,9 @@
 
-/* @import url('../assets/css/lib/bootstrap.min.css'); */
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
 
 @import url('../styles/styles.css');
 @import url('../styles/headings.css');
+/* @import '~bootstrap/dist/css/bootstrap.min.css'; */
 
 html,
 body {

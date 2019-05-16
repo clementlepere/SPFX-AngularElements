@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ApplicationRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 import { LoadTitleSPService } from '@app/core/services/loadTitleSP/loadTitleSP.service';
@@ -12,7 +12,8 @@ import { TableTracker } from '@app/shared/models/tracker/tabletracker';
     selector: 'summary-list-trackers',
     styleUrls: ['./summary-list-trackers.component.css'],
     templateUrl: './summary-list-trackers.component.html',
-    // encapsulation: ViewEncapsulation.Native
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    // encapsulation: ViewEncapsulation.None
 })
 export class SummaryListTrackersComponent implements OnInit {
     trackerIdSelected: string;
@@ -94,65 +95,19 @@ export class SummaryListTrackersComponent implements OnInit {
 
     // TypeScript public modifiers
     constructor(
-        // public appState: AppState,
         public trackerService: TrackerService,
         public permissionService: PermissionsService,
         public tablegenericService: TableGenericService,
         public loadTitleSpService: LoadTitleSPService,
         public activatedRoute: ActivatedRoute,
         private isOnlineService: IsOnlineService,
-    ) {
-        // this.isOnlineService.update(false);
-        // if (this.isOnlineService.get() === true) {
-        //     // this.getActivatedRoute();
-        //     if (typeof this.activatedRoute.params !== 'undefined') {
-        //         this.sub = this.activatedRoute.params.subscribe(params => {
-        //             // this.showMigrated = params['showMigrated']; // (+) converts string 'id' to a number
-        //             this.showMigrated = false; // (+) converts string 'id' to a number
-        //             this.tablegenericService.configureTable(this.columns, this.config);
-        //             this.loadTitleSpService.loadTitle();
-        //             this.getPermissionsForTracker();
-        //             this.getTrackersByListName();
-        //         });
-        //     }
-        // }
-        //  else {
-        //     this.showMigrated = false; // (+) converts string 'id' to a number
-        //     this.tablegenericService.configureTable(this.columns, this.config);
-        //     this.loadTitleSpService.loadTitle();
-        //     this.trackers = [];
-        //     const tracker: any = {
-        //         AutoAssigned: null,
-        //         Close: 0,
-        //         Description: null,
-        //         HiddenPoints: false,
-        //         Icon: 'https://ddw-int.capgemini.com/sites/PerformanceTestS/Style%20Library/Images/icons/icon_39.png',
-        //         Id: null,
-        //         IsFavoriteTracker: false,
-        //         IsSystemTracker: true,
-        //         Open: 2,
-        //         OpenPoints: 0,
-        //         OpenPriority: [],
-        //         TotalPoints: 0,
-        //         Total: 2,
-        //         TrackerId: 'tracker0752118',
-        //         TrackerName: 'Actions',
-        //         UnitId: 0,
-        //         UnitName: null,
-        //         ViewLink: '/sites/PerformanceTestS/TrackerForm/Lists/tracker0752118/TrackerHomeForm.aspx',
-        //         sp_id: 1,
-        //     };
-        //     tracker.OpenPriority.push({
-        //         Max: 2,
-        //         Type: 'low',
-        //         Value: 2,
-        //     });
-        //     this.trackers.push(tracker);
-        //     this.formatDataTable(this.trackers);
-        // }
+        private app: ApplicationRef,
+        private cd: ChangeDetectorRef,
+        private _ngZone: NgZone) {
     }
 
-    public ngOnInit() {
+    public ngOnInit() {      
+        this.cd.detectChanges();
         console.log('onInit summary traker');
         this.isOnlineService.update(false);
         if (this.isOnlineService.get() === true) {
@@ -168,7 +123,7 @@ export class SummaryListTrackersComponent implements OnInit {
                 });
             }
         }
-         else {
+        else {
             this.showMigrated = false; // (+) converts string 'id' to a number
             this.tablegenericService.configureTable(this.columns, this.config);
             this.loadTitleSpService.loadTitle();
@@ -199,26 +154,13 @@ export class SummaryListTrackersComponent implements OnInit {
                 Type: 'low',
                 Value: 2,
             });
+
             this.trackers.push(tracker);
             this.formatDataTable(this.trackers);
-
         }
-        
-        // this.getActivatedRoute();
-        // if (typeof this.activatedRoute.params != 'undefined') {
-        //     this.sub = this.activatedRoute.params.subscribe(params => {
-        //         // this.showMigrated = params['showMigrated']; // (+) converts string 'id' to a number
-        //         this.showMigrated = false; // (+) converts string 'id' to a number
-        //         this.tablegenericService.configureTable(this.columns, this.config);
-        //         this.loadTitleSpService.loadTitle();
-        //         this.getPermissionsForTracker();
-        //         this.getTrackersByListName();
-        //     });
-        // }
     }
 
     public ngAfterViewInit() { }
-
 
     // tslint:disable-next-line:no-unused-variable
     private ngOnDestroy() {
@@ -251,7 +193,6 @@ export class SummaryListTrackersComponent implements OnInit {
             this.disabledEdit = true;
             this.disabledDelete = true;
         }
-
     }
 
     public favoriteEdited(data: any): any {
@@ -295,7 +236,13 @@ export class SummaryListTrackersComponent implements OnInit {
     // Define format of your data
     // Tested
     public formatDataTable(data: CTracker[]): void {
+        console.log('formatDataTable before', this.data)
+        // this._ngZone.run(() => {
+        //     console.log('In ngZone!', this.trackers);
+
+        // });
         this.data = [];
+        console.log('formatDataTable after', this.data)
         this.showLoader = false;
         data.forEach((value: CTracker) => {
             const stacked = { 'max': 0, 'value': [] };
@@ -309,6 +256,7 @@ export class SummaryListTrackersComponent implements OnInit {
                     stacked.value.push({ 'value': stack.Value, 'type': stack.Type, 'width': ((stack.Value / allvalues) * 100) });
                 }
             });
+
             const tabletracker: TableTracker = {
                 sp_id: value.sp_id,
                 id: value.Id,
@@ -331,7 +279,7 @@ export class SummaryListTrackersComponent implements OnInit {
         this.tablegenericService.setDataSaved(this.data);
         this.onChangeTable(this.config);
         this.showLoader = false;
-        console.log('this.datasaved', this.data);
+        // console.log('this.datasaved', this.data);
     }
 
     //Tested
@@ -366,6 +314,7 @@ export class SummaryListTrackersComponent implements OnInit {
     public onChangeTable(config: any = this.config, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }) {
         if (typeof config != 'undefined') {
             this.tablegenericService.onChangeTable(config, page).then((response) => {
+                // console.log('onChangeTable', response['rows']);
                 this.rows = response['rows'];
                 this.length = response['length'];
             },
@@ -401,9 +350,9 @@ export class SummaryListTrackersComponent implements OnInit {
         } else {
 
             setTimeout(() => {
-                // this.permissionService.getPermissionsForTracker().subscribe((response) => {
-                //     this.permissionsTracker = response;
-                // });
+                this.permissionService.getPermissionsForTracker().subscribe((response) => {
+                    this.permissionsTracker = response;
+                });
             }, 1000);
         }
     }

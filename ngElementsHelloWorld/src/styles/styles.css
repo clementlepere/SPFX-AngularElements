@@ -4,11 +4,13 @@
 
 /*Bootstrap scoped*/
 
-/*@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');*/
+/* @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'); */
 
 /*@import url('./lib/bootstrap.min.css');*/
 
 @import url('../../node_modules/ngx-toasta/styles/style-bootstrap.css');
+/* @import url('../../node_modules/bootstrap/dist/css/bootstrap.css'); */
+
 @import url('../../node_modules/dragula/dist/dragula.css');
 @import url('./tableStandardizing.css');
 /* @import 'variables';

@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 import { PeoplePickerService } from '@app/core/services/peoplePicker/peoplepicker.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'shared-table-generic',
@@ -10,7 +11,9 @@ import { PeoplePickerService } from '@app/core/services/peoplePicker/peoplepicke
     providers: [
         PeoplePickerService,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class SharedTableGenericComponent implements OnInit {
 
     public edit = false;
@@ -27,22 +30,140 @@ export class SharedTableGenericComponent implements OnInit {
     private listGroupPeoplePicker: Array<any> = [];
     private selectAllBoolean = true;
 
+    // Table values
+    @Input() public rows: Array<any> = [];
+
+    @Input()
+    public showLoader = false;
+
+    // Table values
+    public _data: Array<any> = [];
+
+    @Input()
+    public set data(data: any) {
+        let error = false;
+        if (typeof this.arrayLineSelected.length == 'undefined') {
+            this.arrayLineSelected = [];
+        }
+        if (typeof data != 'undefined') {
+
+            this._data = data;
+            this.columns.forEach((value: any) => {
+                value.arraySelected = [];
+                this._data.forEach((valueRow: any) => {
+                    //Error checking
+                    if (valueRow[value.name] == '' && value.required) {
+                        error = true;
+                    }
+
+                    if (this._data.filter(item => item.label == valueRow[value.name]).length > 1 && value.unique) {
+                        console.error('error : the field must be unique');
+                        error = true;
+                    }
+
+                    if (value.arraySelected.indexOf(valueRow[value.name]) == -1) {
+                        value.arraySelected.push(valueRow[value.name]);
+                    }
+
+                    if ((typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) && value.name == this._config.groupBy) {
+                        this.keyArrayGroup.push(valueRow[value.name]);
+                    }
+
+                });
+            });
+            this.error.emit({ error });
+        }
+        console.log('input data vkal', this._data);
+    }
+
+    public _filters: Array<any> = [];
+
+    @Input()
+    public set filtersInput(filters: any) {
+        this._filters = filters;
+    }
+
+    @Input()
+    public set selectedArray(selected: any) {
+        if (selected != null && selected.length != 0) {
+            this.arrayLineSelected = selected;
+        }
+    }
+
+    @Input()
+    public set config(conf: any) {
+        if (!conf.className) {
+            conf.className = 'table-striped table-bordered';
+        }
+        if (conf.className instanceof Array) {
+            conf.className = conf.className.join(' ');
+        }
+        this._config = conf;
+    }
+
+    // Outputs (Events)
+    @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
+    @Output() public cellClicked: EventEmitter<any> = new EventEmitter();
+    @Output() public favoriteEdited: EventEmitter<any> = new EventEmitter();
+    @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
+    @Output() public filterChanged: EventEmitter<any> = new EventEmitter();
+    @Output() public error: EventEmitter<any> = new EventEmitter();
+
+    public showFilterRow: Boolean = false;
+
+    @Input()
+    public set columns(values: Array<any>) {
+        this.rowsFiltered = this._data;
+        if (typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) {
+            this.showGroupBy = true;
+        }
+
+        values.forEach((value: any) => {
+            value.arraySelected = [];
+            this._data.forEach((valueRow: any) => {
+                if (value.arraySelected.indexOf(valueRow[value.name]) == -1) {
+                    value.arraySelected.push(valueRow[value.name]);
+                }
+
+                if ((typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) && value.name == this._config.groupBy) {
+                    this.keyArrayGroup.push(valueRow[value.name]);
+                }
+            });
+
+            if (value.filtering) {
+                this.showFilterRow = true;
+            }
+            if (value.className && value.className instanceof Array) {
+                value.className = value.className.join(' ');
+            }
+            const column = this._columns.find((col: any) => col.name === value.name);
+            if (column) {
+                Object.assign(column, value);
+            }
+            if (!column) {
+                this._columns.push(value);
+            }
+        });
+    }
+
     public constructor(
         private sanitizer: DomSanitizer,
         public peoplePickerService: PeoplePickerService,
         private isOnlineService: IsOnlineService,
+        private cdRef: ChangeDetectorRef,
+        private _ngZone: NgZone
     ) { }
 
     public ngOnInit() {
         // TODO: use init
-        console.log('table generic init');
         if (this.isOnlineService.get() === true) {
             this.getAllPeoplePicker();
             this.getGroupPeoplePicker();
         } else {
+            console.log('table generic init');
             const listPeoplePicker = [
-                { id: 1,  text: 'Rudra Raju, Mani' },
-                { id: 9,  text: 'Style Resource Readers' },
+                { id: 1, text: 'Rudra Raju, Mani' },
+                { id: 9, text: 'Style Resource Readers' },
                 { id: 14, text: 'Quick Deploy Users' },
                 { id: 15, text: 'NT AUTHORITY\authenticated users' },
                 { id: 16, text: 'Everyone' },
@@ -72,7 +193,7 @@ export class SharedTableGenericComponent implements OnInit {
                 { id: 15, text: 'NT AUTHORITY\authenticated users' },
                 { id: 14, text: 'Quick Deploy Users' },
                 { id: 19, text: 'RecentItems' },
-                { id: 9,  text: 'Style Resource Readers' },
+                { id: 9, text: 'Style Resource Readers' },
                 { id: 26, text: 'TrackerForm Contract' },
                 { id: 25, text: 'TrackerForm Customer' },
                 { id: 27, text: 'TrackerForm Cysip' },
@@ -127,14 +248,12 @@ export class SharedTableGenericComponent implements OnInit {
     }
 
     public applyFilter(): void {
-
         this.filterChanged.emit({ filters: this.filters });
     }
 
     public removed(value: any, column: string): void {
         this.filters[column] = '';
         this.applyFilter();
-
     }
 
     public typed(value: any): void {
@@ -143,7 +262,6 @@ export class SharedTableGenericComponent implements OnInit {
     public refreshValue(value: any): void {
         this.value = value;
     }
-
 
     //EditSelect
     public selectedEdit(value: any, propertyName: string, row: any): void {
@@ -199,128 +317,8 @@ export class SharedTableGenericComponent implements OnInit {
         this.value = value;
     }
 
-    // Table values
-    @Input() public rows: Array<any> = [];
-
-    @Input()
-    public showLoader = false;
-
-    // Table values
-    public _data: Array<any> = [];
-
-    @Input()
-    public set data(data: any) {
-        console.log('input data val', data);
-
-        let error = false;
-        if (typeof this.arrayLineSelected.length == 'undefined') {
-            this.arrayLineSelected = [];
-        }
-        if (typeof data != 'undefined') {
-
-            this._data = data;
-            this.columns.forEach((value: any) => {
-                value.arraySelected = [];
-                this._data.forEach((valueRow: any) => {
-                    //Error checking
-                    if (valueRow[value.name] == '' && value.required) {
-                        error = true;
-                    }
-
-                    if (this._data.filter(item => item.label == valueRow[value.name]).length > 1 && value.unique) {
-                        console.error('error : the field must be unique');
-                        error = true;
-                    }
-
-                    if (value.arraySelected.indexOf(valueRow[value.name]) == -1) {
-                        value.arraySelected.push(valueRow[value.name]);
-                    }
-
-                    if ((typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) && value.name == this._config.groupBy) {
-                        this.keyArrayGroup.push(valueRow[value.name]);
-                    }
-
-                });
-            });
-            this.error.emit({ error });
-        }
-    }
-
-    public _filters: Array<any> = [];
-
-    @Input()
-    public set filtersInput(filters: any) {
-        this._filters = filters;
-    }
-
-    @Input()
-    public set selectedArray(selected: any) {
-        if (selected != null && selected.length != 0) {
-            this.arrayLineSelected = selected;
-        }
-    }
-
-    @Input()
-    public set config(conf: any) {
-        if (!conf.className) {
-            conf.className = 'table-striped table-bordered';
-        }
-        if (conf.className instanceof Array) {
-            conf.className = conf.className.join(' ');
-        }
-        this._config = conf;
-    }
-
-    // Outputs (Events)
-    @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
-    @Output() public cellClicked: EventEmitter<any> = new EventEmitter();
-    @Output() public favoriteEdited: EventEmitter<any> = new EventEmitter();
-    @Output() public rowClicked: EventEmitter<any> = new EventEmitter();
-    @Output() public filterChanged: EventEmitter<any> = new EventEmitter();
-    @Output() public error: EventEmitter<any> = new EventEmitter();
-
-    public showFilterRow: Boolean = false;
-
-    @Input()
-    public set columns(values: Array<any>) {
-        console.log('columns', this.columns);
-
-        this.rowsFiltered = this._data;
-        if (typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) {
-            this.showGroupBy = true;
-        }
-        values.forEach((value: any) => {
-            value.arraySelected = [];
-            this._data.forEach((valueRow: any) => {
-                if (value.arraySelected.indexOf(valueRow[value.name]) == -1) {
-                    value.arraySelected.push(valueRow[value.name]);
-                }
-
-                if ((typeof this._config.groupBy != 'undefined' || this._config.groupBy != null) && value.name == this._config.groupBy) {
-                    this.keyArrayGroup.push(valueRow[value.name]);
-                }
-
-            });
-
-            if (value.filtering) {
-                this.showFilterRow = true;
-            }
-            if (value.className && value.className instanceof Array) {
-                value.className = value.className.join(' ');
-            }
-            const column = this._columns.find((col: any) => col.name === value.name);
-            if (column) {
-                Object.assign(column, value);
-            }
-            if (!column) {
-                this._columns.push(value);
-            }
-        });
-    }
-
     private _columns: Array<any> = [];
     private _config: any = {};
-
 
     public getErrorClass(column: any, row: any): string {
         let error = '';
@@ -335,7 +333,6 @@ export class SharedTableGenericComponent implements OnInit {
         }
         return error;
     }
-
 
     public sanitize(html: string): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -357,7 +354,6 @@ export class SharedTableGenericComponent implements OnInit {
                 sortColumns.push(column);
             }
         });
-
         return { columns: sortColumns };
     }
 
@@ -370,8 +366,8 @@ export class SharedTableGenericComponent implements OnInit {
         this.tableChanged.emit({ sorting: this.configColumns });
         this.filterChanged.emit({ filters: this.filters });
     }
-    public getRowspan(row: any, propertyName: string): number {
 
+    public getRowspan(row: any, propertyName: string): number {
         const valueData = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
         let value = 1;
         if (propertyName == this._config.groupBy) {
@@ -379,8 +375,8 @@ export class SharedTableGenericComponent implements OnInit {
         }
         return value;
     }
-    public getRowspanDisplay(previousrow: any, row: any, propertyName: string, index: number): string {
 
+    public getRowspanDisplay(previousrow: any, row: any, propertyName: string, index: number): string {
         const valueData = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
         let value = 'table-cell';
         if (propertyName == this._config.groupBy && typeof previousrow != 'undefined' && previousrow != null) {
@@ -391,12 +387,12 @@ export class SharedTableGenericComponent implements OnInit {
         }
         return value;
     }
+
     public getData(row: any, propertyName: string): string {
         const value = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
         if (typeof value.parent != 'undefined' && typeof value.value != 'undefined') {
             return '<div>' + value.parent + '</div>' +
                 '<div><i class="glyphicon glyphicon-arrow-right"></i>  ' + value.value + '</div>';
-
         } else {
             return value;
         }

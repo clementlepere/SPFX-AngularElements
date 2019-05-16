@@ -86,23 +86,21 @@ type StoreType = {
 export class AppModule {
   appState: any;
   appRef: any;
-  constructor(private injector: Injector) { }
+  constructor(private injector: Injector) {   }
 
   ngDoBootstrap(appRef: ApplicationRef) {
+   
     // const rootElements = document.querySelectorAll('app-root');
+
     // for (const element of rootElements as any as HTMLElement[]) {
     //   console.log('element', element);
     //   appRef.bootstrap(AppComponent, element);
     // }
 
     if (!customElements.get('app-root')) {
-
       const strategyFactory = new ElementZoneStrategyFactory(AppComponent, this.injector);
       const helloElement = createCustomElement(AppComponent, { injector: this.injector, strategyFactory });
       customElements.define('app-root', helloElement);
-
-      // const AppElement1 = createCustomElement(AppComponent, { injector: this.injector });
-      // customElements.define('app-root', AppElement1);
     }
 
     // if (!customElements.get('summary-list-trackers')) {
