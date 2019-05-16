@@ -31,7 +31,6 @@ import { Routes } from '@angular/router';
 // import { SpecificPermissionsComponent } from './Views/source-code/source-code-specific-permission';
 import { SummaryListTrackersComponent } from '@app/features/trackers/summary-list-trackers';
 import { NoContentComponent } from './shared/components/no-content/no-content.component';
-import { AppComponent } from './app.component';
 // import { GroupMatrixComponent } from './Views/user-group-matrix/user-group-matrix.component';
 
 export const ROUTES: Routes = [
@@ -76,9 +75,9 @@ export const ROUTES: Routes = [
     // { path: 'summaryTracker/:showMigrated', component: SummaryListTrackersComponent },
 
     // { path: '**', component: NoContentComponent },
-    // { path: '**', component: SummaryListTrackersComponent },
-    // { path: '', redirectTo: 'summaryTracker', pathMatch: 'full' },
-    // { path: 'summaryTracker', component: SummaryListTrackersComponent },
+    { path: '', redirectTo: 'summaryTracker', pathMatch: 'full' },
+    { path: 'summaryTracker', component: SummaryListTrackersComponent },
+    { path: 'noContent', component: NoContentComponent },
 
     // {
     //     path: '**',

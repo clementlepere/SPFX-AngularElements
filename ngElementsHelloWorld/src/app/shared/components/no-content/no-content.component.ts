@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'no-content',
-  template: `
-    <div class="green">
-      <h1>404: page missing----</h1>
-    </div>
-  `,
+  templateUrl: './no-content.component.html',
 })
-export class NoContentComponent {
+export class NoContentComponent implements OnInit {
 
+  constructor(private router: Router, ) { }
+
+  public ngOnInit() {
+    console.log('ngOnInit no content');
+  }
 }

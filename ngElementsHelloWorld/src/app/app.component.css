@@ -1,5 +1,5 @@
 
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css');
 
 @import url('../styles/styles.css');
 @import url('../styles/headings.css');
@@ -17,6 +17,11 @@ a.active {
 
 a {
     cursor: pointer !important;
+}
+
+.green {
+    color: green;
+    background-color: greenyellow;
 }
 
 .bootstrap .form-control-feedback {

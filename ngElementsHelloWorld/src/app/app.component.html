@@ -1,7 +1,28 @@
 <div>App component html</div>
+
 <div class="bootstrap">
+    <h1>Nav</h1>
+    <div>
+        <a routerLink="/summaryTracker" routerLinkActive="active" class="nav-link green">summaryTracker</a>
+    </div>
+    <div>
+        <a routerLink="/noContent" routerLinkActive="active" class="nav-link green">noContent</a>
+    </div>
+
+    <!-- <div class="green">Green</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a routerLink="/summaryTracker" routerLinkActive="active" class="nav-link green">summaryTracker</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/noContent" routerLinkActive="active" class="nav-link green">noContent</a>
+                </li>
+            </ul>
+        </div>
+    </nav> -->
     <main>
         <router-outlet></router-outlet>
-        <summary-list-trackers></summary-list-trackers>
     </main>
 </div>

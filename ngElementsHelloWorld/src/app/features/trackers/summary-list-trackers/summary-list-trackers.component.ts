@@ -265,7 +265,7 @@ export class SummaryListTrackersComponent implements OnInit {
             };
             this.data.push(tabletracker);
         });
-        
+
         this.dataSaved = this.data;
         this.tablegenericService.setData(this.data);
         this.tablegenericService.setDataSaved(this.data);
@@ -280,7 +280,6 @@ export class SummaryListTrackersComponent implements OnInit {
 
     //Tested
     public onCellClick(data: any) {
-
         if (data.column == 'trackerName') {
             location.href = data.row.ViewLink;
         }
@@ -305,7 +304,6 @@ export class SummaryListTrackersComponent implements OnInit {
     public onChangeTable(config: any = this.config, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }) {
         if (typeof config != 'undefined') {
             this.tablegenericService.onChangeTable(config, page).then((response) => {
-                // console.log('onChangeTable', response['rows']);
                 this.rows = response['rows'];
                 this.length = response['length'];
             },

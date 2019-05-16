@@ -10,7 +10,7 @@ import { PeoplePickerService } from '@app/core/services/peoplePicker/peoplepicke
     providers: [
         PeoplePickerService,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class SharedTableGenericComponent implements OnInit {
@@ -144,14 +144,13 @@ export class SharedTableGenericComponent implements OnInit {
         });
     }
 
-    public constructor(
-        private sanitizer: DomSanitizer,
+    public constructor(private sanitizer: DomSanitizer,
         public peoplePickerService: PeoplePickerService,
         private isOnlineService: IsOnlineService,
     ) { }
 
     public ngOnInit() {
-        console.log('table generic ngOnInit');
+        console.log('ngOnInit table generic');
         // TODO: use init
         if (this.isOnlineService.get() === true) {
             this.getAllPeoplePicker();

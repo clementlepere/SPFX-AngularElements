@@ -50,7 +50,8 @@ import { PickListModule } from 'primeng/components/picklist/picklist';
     ],
     exports: [
         CommonModule,
-
+        
+        NoContentComponent,
         CustomMessageValidationComponent,
         SharedTableGenericComponent,
     ],

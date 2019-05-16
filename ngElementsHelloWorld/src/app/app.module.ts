@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationRef, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
-import { PreloadAllModules, RouterModule } from '@angular/router';
+import { PreloadAllModules, RouterModule, Router } from '@angular/router';
 import { AppComponent } from '@app/app.component';
 import { APP_RESOLVER_PROVIDERS } from '@app/app.resolver';
 import { ROUTES } from '@app/app.routes';
@@ -70,8 +70,7 @@ type StoreType = {
       prefix: 'my-app',
       storageType: 'localStorage',
     }),
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
-
+    RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [
     BackendRequestClass,
@@ -86,17 +85,18 @@ type StoreType = {
 export class AppModule {
   appState: any;
   appRef: any;
-  constructor(private injector: Injector) {   }
+  constructor(private injector: Injector, private router: Router) { }
 
   ngDoBootstrap(appRef: ApplicationRef) {
-   
+    console.log('ngOnInit app module');
+
     // const rootElements = document.querySelectorAll('app-root');
 
     // for (const element of rootElements as any as HTMLElement[]) {
-    //   console.log('element', element);
     //   appRef.bootstrap(AppComponent, element);
     // }
-
+    
+    this.router.initialNavigation();
     if (!customElements.get('app-root')) {
       const helloElement = createCustomElement(AppComponent, { injector: this.injector });
       customElements.define('app-root', helloElement);
