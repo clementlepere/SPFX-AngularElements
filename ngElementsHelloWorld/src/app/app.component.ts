@@ -1,7 +1,7 @@
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
-import { Component, ElementRef, Input, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, NgModule, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -27,10 +27,10 @@ import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
   declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   @Input() isOnline: boolean;
   // title = 'Angular';
-  constructor(elm: ElementRef, private router: Router, private isOnlineService: IsOnlineService) {
+  constructor(elm: ElementRef, private isOnlineService: IsOnlineService) {
     this.isOnline = elm.nativeElement.getAttribute('isOnline');
     this.isOnline !== null && this.isOnline !== undefined ? this.isOnlineService.update(this.isOnline) : this.isOnlineService.update(false);
     console.log('******COMPONENT******');

@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 import { PeoplePickerService } from '@app/core/services/peoplePicker/peoplepicker.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'shared-table-generic',
@@ -73,7 +72,6 @@ export class SharedTableGenericComponent implements OnInit {
             });
             this.error.emit({ error });
         }
-        console.log('input data vkal', this._data);
     }
 
     public _filters: Array<any> = [];
@@ -150,17 +148,15 @@ export class SharedTableGenericComponent implements OnInit {
         private sanitizer: DomSanitizer,
         public peoplePickerService: PeoplePickerService,
         private isOnlineService: IsOnlineService,
-        private cdRef: ChangeDetectorRef,
-        private _ngZone: NgZone
     ) { }
 
     public ngOnInit() {
+        console.log('table generic ngOnInit');
         // TODO: use init
         if (this.isOnlineService.get() === true) {
             this.getAllPeoplePicker();
             this.getGroupPeoplePicker();
         } else {
-            console.log('table generic init');
             const listPeoplePicker = [
                 { id: 1, text: 'Rudra Raju, Mani' },
                 { id: 9, text: 'Style Resource Readers' },
@@ -208,10 +204,6 @@ export class SharedTableGenericComponent implements OnInit {
                 this.listGroupPeoplePicker.push({ 'id': value.Id, 'text': value.Name });
             });
         }
-        console.log('rows', this.rows);
-        console.log('columns', this.columns);
-        console.log('filters', this.filters);
-        console.log('config', this.config);
     }
 
     private get disabledV(): string {
@@ -328,7 +320,6 @@ export class SharedTableGenericComponent implements OnInit {
         }
 
         if (this._data.filter(item => item.label == row[column.name]).length > 1 && column.unique) {
-            console.error('error : the field must be unique');
             error = 'danger';
         }
         return error;

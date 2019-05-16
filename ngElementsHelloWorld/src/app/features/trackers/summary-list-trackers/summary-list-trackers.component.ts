@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ApplicationRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IsOnlineService } from '@app/core/services/helpers/isOnline.service';
 import { LoadTitleSPService } from '@app/core/services/loadTitleSP/loadTitleSP.service';
@@ -13,7 +13,6 @@ import { TableTracker } from '@app/shared/models/tracker/tabletracker';
     styleUrls: ['./summary-list-trackers.component.css'],
     templateUrl: './summary-list-trackers.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    // encapsulation: ViewEncapsulation.None
 })
 export class SummaryListTrackersComponent implements OnInit {
     trackerIdSelected: string;
@@ -101,14 +100,12 @@ export class SummaryListTrackersComponent implements OnInit {
         public loadTitleSpService: LoadTitleSPService,
         public activatedRoute: ActivatedRoute,
         private isOnlineService: IsOnlineService,
-        private app: ApplicationRef,
         private cd: ChangeDetectorRef,
-        private _ngZone: NgZone) {
-    }
+    ) { }
 
-    public ngOnInit() {      
+    public ngOnInit() {
         this.cd.detectChanges();
-        console.log('onInit summary traker');
+        console.log('ngOnInit summary traker');
         this.isOnlineService.update(false);
         if (this.isOnlineService.get() === true) {
             // this.getActivatedRoute();
@@ -236,13 +233,7 @@ export class SummaryListTrackersComponent implements OnInit {
     // Define format of your data
     // Tested
     public formatDataTable(data: CTracker[]): void {
-        console.log('formatDataTable before', this.data)
-        // this._ngZone.run(() => {
-        //     console.log('In ngZone!', this.trackers);
-
-        // });
         this.data = [];
-        console.log('formatDataTable after', this.data)
         this.showLoader = false;
         data.forEach((value: CTracker) => {
             const stacked = { 'max': 0, 'value': [] };
@@ -274,12 +265,12 @@ export class SummaryListTrackersComponent implements OnInit {
             };
             this.data.push(tabletracker);
         });
+        
         this.dataSaved = this.data;
         this.tablegenericService.setData(this.data);
         this.tablegenericService.setDataSaved(this.data);
         this.onChangeTable(this.config);
         this.showLoader = false;
-        // console.log('this.datasaved', this.data);
     }
 
     //Tested

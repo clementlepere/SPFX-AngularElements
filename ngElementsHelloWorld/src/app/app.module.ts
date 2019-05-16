@@ -26,7 +26,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { PickListModule } from 'primeng/components/picklist/picklist';
-import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -83,6 +82,7 @@ type StoreType = {
   ],
   entryComponents: [AppComponent]
 })
+
 export class AppModule {
   appState: any;
   appRef: any;
@@ -98,15 +98,9 @@ export class AppModule {
     // }
 
     if (!customElements.get('app-root')) {
-      const strategyFactory = new ElementZoneStrategyFactory(AppComponent, this.injector);
-      const helloElement = createCustomElement(AppComponent, { injector: this.injector, strategyFactory });
+      const helloElement = createCustomElement(AppComponent, { injector: this.injector });
       customElements.define('app-root', helloElement);
     }
-
-    // if (!customElements.get('summary-list-trackers')) {
-    //   const AppElement1 = createCustomElement(SummaryListTrackersComponent, { injector: this.injector });
-    //   customElements.define('summary-list-trackers', AppElement1);
-    // }
   }
 
   public hmrOnInit(store: StoreType) {

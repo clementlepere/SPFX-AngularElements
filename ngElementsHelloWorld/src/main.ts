@@ -11,8 +11,5 @@ if (environment.production) {
 platformBrowserDynamic().bootstrapModule(AppModule, [{ defaultEncapsulation: ViewEncapsulation.None }])
   .catch(err => console.log('bootstrapModule main: ', err));
 
-// platformBrowserDynamic().bootstrapModule(AppModule, { ngZone: 'noop', defaultEncapsulation: ViewEncapsulation.None })
-//   .catch(err => console.log(err));
-
 // import { AppModuleNgFactory } from './app/app.module.ngfactory';
 // platformBrowserDynamic().bootstrapModuleFactory(AppModuleNgFactory, {ngZone: 'noop'}).catch(err => console.log(err));
