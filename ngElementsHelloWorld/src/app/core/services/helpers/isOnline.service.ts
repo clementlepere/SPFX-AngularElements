@@ -2,13 +2,23 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class IsOnlineService {
-    isOnline: boolean;
+    isOnline: any;
 
     update(message: boolean) {
         this.isOnline = message;
     }
 
     get(): boolean {
-        return this.isOnline;
+        switch (this.isOnline) {
+            case true:
+            case "true":
+            case 1:
+            case "1":
+            case "on":
+            case "yes":
+                return true;
+            default:
+                return false;
+        }
     }
 }

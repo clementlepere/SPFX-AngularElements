@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   constructor(elm: ElementRef, private isOnlineService: IsOnlineService) {
     this.isOnline = elm.nativeElement.getAttribute('isOnline');
     this.isOnline !== null && this.isOnline !== undefined ? this.isOnlineService.update(this.isOnline) : this.isOnlineService.update(false);
-    console.log('******COMPONENT******');
+    console.log('******COMPONENT******',   this.isOnline );
   }
 
   public ngOnInit() {

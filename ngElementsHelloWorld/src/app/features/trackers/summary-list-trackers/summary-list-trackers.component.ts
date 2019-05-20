@@ -105,8 +105,7 @@ export class SummaryListTrackersComponent implements OnInit {
 
     public ngOnInit() {
         this.cd.detectChanges();
-        console.log('ngOnInit summary traker');
-        this.isOnlineService.update(false);
+        console.log('ngOnInit summary traker', typeof(this.isOnlineService.get()));
         if (this.isOnlineService.get() === true) {
             // this.getActivatedRoute();
             if (typeof this.activatedRoute.params !== 'undefined') {
@@ -119,8 +118,7 @@ export class SummaryListTrackersComponent implements OnInit {
                     this.getTrackersByListName();
                 });
             }
-        }
-        else {
+        } else {
             this.showMigrated = false; // (+) converts string 'id' to a number
             this.tablegenericService.configureTable(this.columns, this.config);
             this.loadTitleSpService.loadTitle();

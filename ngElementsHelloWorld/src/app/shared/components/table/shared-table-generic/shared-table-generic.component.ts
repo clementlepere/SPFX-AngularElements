@@ -150,7 +150,7 @@ export class SharedTableGenericComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        console.log('ngOnInit table generic');
+        console.log('ngOnInit table generic', this.isOnlineService.get());
         // TODO: use init
         if (this.isOnlineService.get() === true) {
             this.getAllPeoplePicker();
